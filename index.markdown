@@ -4,22 +4,20 @@
 layout: home
 ---
 
-<h2>ようこそどらなおぱん工房へ！</h2>
+<h2 style="font-size: 2em;">ようこそ　どらなおぱん工房へ！</h2>
 
 <div style="text-align: center;">
-  <img src="{{ '/assets/images/doranao_icon.png' | relative_url }}" alt="どらなおぱん工房のロゴ" style="max-width: 20%; height: auto;">
+  <img src="{{ '/assets/images/doranao_icon.png' | relative_url }}" alt="どらなおぱん工房のロゴ" style="max-width: 25%; height: auto;">
 </div>
 
-<h2>工事中です</h2>
+# 工事中です
 
-<p>何もありませんが、作業用BGMでも聴いていってください。</p>
+何もありませんが、作業用BGMでも聴いていってください。
 
-
-<div class="container">
-    <div class="text-center mt-5">
-        <!-- <h2>【作業用BGM】月夜に羊は夢を見るのか</h2> -->
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/oXNvhbp0TC4?si=INTsLdNFAv59Glb_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
+<!-- <h2>【作業用BGM】月夜に羊は夢を見るのか</h2> -->
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; width: 100%;">
+  <iframe src="https://www.youtube.com/embed/oXNvhbp0TC4?si=9CfKL5clJM6HXiNI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen 
+  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
 </div>
 
 <!-- ![どらなおぱん工房のロゴ](/assets/images/doranao_icon.png) -->

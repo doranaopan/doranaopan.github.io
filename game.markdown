@@ -12,9 +12,33 @@ permalink: /game/
 <script>
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    canvas.width = 300;
-    canvas.height = 600;
+//    canvas.width = 300;
+//    canvas.height = 600;
     document.getElementById('game-container').appendChild(canvas);
+
+    let blockSize; // ブロックサイズの変数
+    function resizeCanvas() {
+        const aspectRatio = 10 / 20;  // テトリスの標準比率
+        const maxWidth = 300;         // 横幅の上限
+        const maxHeight = 600;        // 縦幅の上限
+
+        // 画面のアスペクト比に応じてサイズ決定
+        if (window.innerWidth / window.innerHeight < aspectRatio) {
+            canvas.width = Math.min(window.innerWidth, maxWidth);
+            canvas.height = Math.min(canvas.width / aspectRatio, maxHeight);
+        } else {
+            canvas.height = Math.min(window.innerHeight, maxHeight);
+            canvas.width = Math.min(canvas.height * aspectRatio, maxWidth);
+        }
+        blockSize = canvas.width / 10; // 10列に均等配置
+        drawBorder();
+    }
+
+    function drawBorder() {
+        context.strokeStyle = '#000000'; // 枠線の色
+        context.lineWidth = 2;           // 枠線の太さ
+        context.strokeRect(0, 0, canvas.width, canvas.height);
+    }
 
     const colors = [
         '#000000',
@@ -48,7 +72,7 @@ permalink: /game/
         shape.forEach((row, rowIndex) => {
             row.forEach((cell, cellIndex) => {
                 if (cell) {
-                    context.fillRect((x + cellIndex) * 30, (y + rowIndex) * 30, 30, 30);
+                    context.fillRect((x + cellIndex) * blockSize, (y + rowIndex) * blockSize, blockSize, blockSize);
                 }
             });
         });
@@ -59,7 +83,7 @@ permalink: /game/
             for (let col = 0; col < grid[row].length; col++) {
                 if (grid[row][col] !== 0) {
                     context.fillStyle = grid[row][col];
-                    context.fillRect(col * 30, row * 30, 30, 30);
+                    context.fillRect(col * blockSize, row * blockSize, blockSize, blockSize);
                 }
             }
         }
@@ -70,6 +94,7 @@ permalink: /game/
         context.fillRect(0, 0, canvas.width, canvas.height);
         drawGrid();
         drawShape(currentShape, currentX, currentY, currentColor);
+        drawBorder();
     }
 
     function moveDown() {
@@ -162,6 +187,51 @@ permalink: /game/
             rotateShape();
         }
     });
+
+    // === タッチ操作の追加 ===
+    const touchStart = { x: 0, y: 0 };
+    const touchEnd = { x: 0, y: 0 };
+
+    document.addEventListener('touchstart', event => {
+        touchStart.x = event.touches[0].clientX;
+        touchStart.y = event.touches[0].clientY;
+    });
+
+    document.addEventListener('touchend', event => {
+        touchEnd.x = event.changedTouches[0].clientX;
+        touchEnd.y = event.changedTouches[0].clientY;
+
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const deltaX = touchEnd.x - touchStart.x;
+        const deltaY = touchEnd.y - touchStart.y;
+
+        const SWIPE_THRESHOLD = 30;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX > SWIPE_THRESHOLD) {
+                currentX++;
+                if (collision()) currentX--;
+            } else if (deltaX < -SWIPE_THRESHOLD) {
+                currentX--;
+                if (collision()) currentX++;
+            }
+        } else {
+            if (deltaY > SWIPE_THRESHOLD) {
+                moveDown();
+            } else if (deltaY < -SWIPE_THRESHOLD) {
+                rotateShape();
+            }
+        }
+    }
+
+    // 4. ウィンドウリサイズ時の処理
+    window.addEventListener('resize', resizeCanvas);
+
+    // 5. ゲーム初期化時に1回実行
+    resizeCanvas();
 
     main();
 </script>
