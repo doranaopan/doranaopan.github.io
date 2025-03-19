@@ -23,7 +23,7 @@ title: どらなおぱん工房
 email: doranaopan"あっと"じーめいるどっとこむ
 description: >- # this means to ignore newlines until "baseurl:"
   どらなおぱん工房 - All rights reserved.
-baseurl: "/doranaopan.github.io" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://doranaopan.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: doranao_pan
 github_username:  doranaopan

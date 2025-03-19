@@ -1,18 +1,19 @@
 ---
 # Feel free to add content and custom Front Matter to this file.
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
 layout: home
 ---
 
-# ようこそどらなおぱん工房へ！
+<h2>ようこそどらなおぱん工房へ！</h2>
+
 <div style="text-align: center;">
-  <img src="/assets/images/doranao_icon.png" alt="どらなおぱん工房のロゴ" style="max-width: 20%; height: auto;">
+  <img src="{{ '/assets/images/doranao_icon.png' | relative_url }}" alt="どらなおぱん工房のロゴ" style="max-width: 20%; height: auto;">
 </div>
 
-# 工事中です
+<h2>工事中です</h2>
 
-何もありませんが、作業用BGMでも聴いていってください。
+<p>何もありませんが、作業用BGMでも聴いていってください。</p>
+
 
 <div class="container">
     <div class="text-center mt-5">
