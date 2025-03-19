@@ -23,7 +23,7 @@ permalink: /about/
 
 ## 連絡先
 
-- **Email**: doranaopan"あっと"gmail.com
+- **Email**: doranaopan"あっと"じーめいる.こむ
 - **Twitter**: [@doranao_pan](https://twitter.com/doranao_pan)
 - **GitHub**: [doranaopan](https://github.com/doranaopan)
 
