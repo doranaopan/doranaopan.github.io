@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>ゲーム | どらなおぱん工房</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="ゲーム" />
+<meta name="author" content="どらなおぱん" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="どらなおぱん工房 - All rights reserved." />
+<meta property="og:description" content="どらなおぱん工房 - All rights reserved." />
+<link rel="canonical" href="http://localhost:4001/game/" />
+<meta property="og:url" content="http://localhost:4001/game/" />
+<meta property="og:site_name" content="どらなおぱん工房" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="ゲーム" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"どらなおぱん"},"description":"どらなおぱん工房 - All rights reserved.","headline":"ゲーム","url":"http://localhost:4001/game/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4001/feed.xml" title="どらなおぱん工房" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">どらなおぱん工房</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/blog/">Blog</a><a class="page-link" href="/game/">ゲーム</a><a class="page-link" href="/music/">音楽</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">ゲーム</h1>
+  </header>
+
+  <div class="post-content">
+    <p>まぁテトリスでもやっていきなよ。</p>
+
+<p>上下左右キーでプレイできるよ。</p>
+
+<div id="game-container" style="width: 300px; height: 600px; border: 1px solid black;"></div>
+<script>
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = 300;
+    canvas.height = 600;
+    document.getElementById('game-container').appendChild(canvas);
+
+    const colors = [
+        '#000000',
+        '#FF0000',
+        '#00FF00',
+        '#0000FF',
+        '#FFFF00',
+        '#FFA500',
+        '#800080',
+        '#00FFFF'
+    ];
+
+    const shapes = [
+        [[1, 1, 1, 1]],
+        [[1, 1], [1, 1]],
+        [[0, 1, 0], [1, 1, 1]],
+        [[1, 0, 0], [1, 1, 1]],
+        [[0, 0, 1], [1, 1, 1]],
+        [[1, 1, 0], [0, 1, 1]],
+        [[0, 1, 1], [1, 1, 0]]
+    ];
+
+    const grid = Array.from({ length: 20 }, () => Array(10).fill(0));
+    let currentShape = shapes[Math.floor(Math.random() * shapes.length)];
+    let currentColor = colors[Math.floor(Math.random() * colors.length)];
+    let currentX = 3;
+    let currentY = 0;
+
+    function drawShape(shape, x, y, color) {
+        context.fillStyle = color;
+        shape.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+                if (cell) {
+                    context.fillRect((x + cellIndex) * 30, (y + rowIndex) * 30, 30, 30);
+                }
+            });
+        });
+    }
+
+    function drawGrid() {
+        for (let row = 0; row < grid.length; row++) {
+            for (let col = 0; col < grid[row].length; col++) {
+                if (grid[row][col] !== 0) {
+                    context.fillStyle = grid[row][col];
+                    context.fillRect(col * 30, row * 30, 30, 30);
+                }
+            }
+        }
+    }
+
+    function draw() {
+        context.fillStyle = '#FFFFFF'; // Set background to white
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        drawGrid();
+        drawShape(currentShape, currentX, currentY, currentColor);
+    }
+
+    function moveDown() {
+        currentY++;
+        if (collision()) {
+            currentY--;
+            merge();
+            clearLines();
+            reset();
+        }
+    }
+
+    function collision() {
+        for (let row = 0; row < currentShape.length; row++) {
+            for (let col = 0; col < currentShape[row].length; col++) {
+                if (currentShape[row][col] && 
+                    (grid[currentY + row] && grid[currentY + row][currentX + col]) !== 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function merge() {
+        currentShape.forEach((row, rowIndex) => {
+            row.forEach((cell, cellIndex) => {
+                if (cell) {
+                    grid[currentY + rowIndex][currentX + cellIndex] = currentColor;
+                }
+            });
+        });
+    }
+
+    function clearLines() {
+        for (let row = grid.length - 1; row >= 0; row--) {
+            if (grid[row].every(cell => cell !== 0)) {
+                grid.splice(row, 1);
+                grid.unshift(Array(10).fill(0));
+            }
+        }
+    }
+
+    function rotateShape() {
+        const newShape = currentShape[0].map((_, index) => currentShape.map(row => row[index]).reverse());
+        const originalX = currentX;
+        const originalY = currentY;
+        currentX = Math.max(0, Math.min(currentX, 10 - newShape[0].length));
+        currentY = Math.max(0, Math.min(currentY, 20 - newShape.length));
+        if (!collision()) {
+            currentShape = newShape;
+        } else {
+            currentX = originalX;
+            currentY = originalY;
+        }
+    }
+
+    function reset() {
+        currentShape = shapes[Math.floor(Math.random() * shapes.length)];
+        currentColor = colors[Math.floor(Math.random() * colors.length)];
+        currentX = 3;
+        currentY = 0;
+        if (collision()) {
+            alert('Game Over');
+            grid.forEach(row => row.fill(0));
+        }
+    }
+
+    function main() {
+        draw();
+        moveDown();
+        setTimeout(main, 1000);
+    }
+
+    document.addEventListener('keydown', event => {
+        event.preventDefault();
+        if (event.key === 'ArrowLeft') {
+            currentX--;
+            if (collision()) {
+                currentX++;
+            }
+        } else if (event.key === 'ArrowRight') {
+            currentX++;
+            if (collision()) {
+                currentX--;
+            }
+        } else if (event.key === 'ArrowDown') {
+            moveDown();
+        } else if (event.key === 'ArrowUp') {
+            rotateShape();
+        }
+    });
+
+    main();
+</script>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <!-- <h2 class="footer-heading">どらなおぱん工房</h2> -->
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">どらなおぱん</li><li><a class="u-email" href="mailto:doranaopan"あっと"gmail.com">doranaopan"あっと"gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/doranaopan"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">doranaopan</span></a></li><li><a href="https://www.twitter.com/doranao_pan"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">doranao_pan</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>どらなおぱん工房 - All rights reserved.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
