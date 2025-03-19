@@ -8,6 +8,9 @@ permalink: /about/
 
 # どらなおぱんについて
 
+<div style="text-align: center;">
+  <img src="{{ '/assets/images/doranao_icon.png' | relative_url }}" alt="どらなおぱん工房のロゴ" style="max-width: 25%; height: auto;">
+</div>
 こんにちは！どらなおぱんです。趣味でゲーム開発や音楽制作を楽しんでいます。このHPでは、私のプロジェクトや興味のあるトピックについて紹介しています。
 
 ## 趣味

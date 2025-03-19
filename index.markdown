@@ -7,7 +7,7 @@ layout: home
 <h2 style="font-size: 2em;">ようこそ　どらなおぱん工房へ！</h2>
 
 <div style="text-align: center;">
-  <img src="{{ '/assets/images/doranao_icon.png' | relative_url }}" alt="どらなおぱん工房のロゴ" style="max-width: 25%; height: auto;">
+  <img src="{{ '/assets/images/doranaopankobo.webp' | relative_url }}" alt="どらなおぱん工房のロゴ" style="max-width: 50%; height: auto;">
 </div>
 
 # 工事中です
