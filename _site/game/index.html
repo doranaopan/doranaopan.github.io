@@ -22,7 +22,9 @@
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="どらなおぱん工房" /></head>
 <!-- Favicon Link -->
   <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
-
+<head>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
   <body><header class="site-header" role="banner">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">どらなおぱん工房</a><nav class="site-nav">
@@ -35,7 +37,7 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/blog/">Blog</a><a class="page-link" href="/game/">ゲーム</a><a class="page-link" href="/music/">音楽</a></div>
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/blog/">Blog</a><a class="page-link" href="/music/">音楽</a><a class="page-link" href="/game/">ゲーム</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -47,23 +49,21 @@
   </header>
 
   <div class="post-content">
-    <p>まぁテトリスでもやっていきなよ。</p>
+    <p>これまで作ったゲームなどの紹介</p>
 
-<p>上下左右キーでプレイできるよ。</p>
+<h3 id="テトリス"><a href="/game/tetris/" target="_blank">テトリス</a></h3>
+<p>まぁテトリスでもやっていきなよ。上下左右キーでプレイできるよ。</p>
 
-<!-- テトリスをプレイするボタン -->
-<p><button onclick="openTetris()">テトリスをプレイする</button></p>
+<h3 id="柑橘ゲーム"><a href="https://kankitsu.vercel.app/" target="_blank">柑橘ゲーム</a></h3>
+<p>柑橘を揃えて消していくゲームです。</p>
 
+<!-- テトリスをプレイするボタン
+<button onclick="openTetris()">テトリスをプレイする</button>
 <script>
   function openTetris() {
     window.open('/game/tetris', 'tetrisWindow', 'width=800,height=1600,scrollbars=no,toolbar=no,location=no,status=no');
   }
-</script>
-
-<!-- テトリスをプレイするボタン
-<a href="/game/tetris" target="_blank">
-  <button>テトリスをプレイする</button>
-</a> -->
+</script> -->
 
   </div>
 

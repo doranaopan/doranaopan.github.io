@@ -4,7 +4,7 @@
 layout: home
 ---
 
-<h2 style="font-size: 2em;">ようこそ　どらなおぱん工房へ！</h2>
+<h2 style="font-size: 2em;">ようこそどらなおぱん工房へ！</h2>
 
 <div style="text-align: center;">
   <img src="{{ '/assets/images/doranaopankobo.webp' | relative_url }}" alt="どらなおぱん工房のロゴ" style="max-width: 50%; height: auto;">
@@ -19,5 +19,6 @@ layout: home
   <iframe src="https://www.youtube.com/embed/oXNvhbp0TC4?si=9CfKL5clJM6HXiNI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen 
   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
 </div>
+<br>
 
 <!-- ![どらなおぱん工房のロゴ](/assets/images/doranao_icon.png) -->

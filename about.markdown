@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-自己紹介のページ。AIが作成しました。
+この自己紹介はAIが作成しました。
 
 # どらなおぱんについて
 
@@ -29,6 +29,11 @@ permalink: /about/
 - **Email**: doranaopan"あっと"じーめいる.こむ
 - **Twitter**: [@doranao_pan](https://twitter.com/doranao_pan)
 - **GitHub**: [doranaopan](https://github.com/doranaopan)
+
+# このwebサイトについて
+
+[jekyll](https://github.com/jekyll/jekyll)を用いて作られています。
+
 
 これからもどらなおぱん工房をよろしくお願いします！
 
