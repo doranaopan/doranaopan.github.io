@@ -1,0 +1,139 @@
+---
+layout: default
+permalink: /game/otoge
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡単な音ゲー</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #game-area { position: relative; width: 300px; height: 500px; border: 2px solid black; margin: auto; overflow: hidden; }
+        .note { position: absolute; width: 50px; height: 50px; background: red; left: 125px; }
+        .hit { background: green; } /* ヒット成功時の色 */
+        #hit-area { position: absolute; bottom: 20px; width: 100%; height: 50px; background: rgba(0, 255, 0, 0.5); }
+    </style>
+</head>
+<body>
+    <h1>リズムゲーム</h1>
+    <button onclick="startGame()">スタート</button>
+    <p>スペースキーでノーツをヒット！</p>
+
+    <div id="game-area">
+        <div id="hit-area"></div>
+    </div>
+    <audio id="bgm" src="/assets/music/test.mp3"></audio>
+
+    <script>
+        let notes = [];
+        let gameArea = document.getElementById("game-area");
+        let hitArea = document.getElementById("hit-area");
+        let bgm = document.getElementById("bgm");
+        let score = 0;
+        let gameStarted = false;
+        let noteSpawnInterval;
+        let noteSpeed = 5; // ノーツの速度
+
+        // **BPM指定**
+        let BPM = 105;
+        let beatInterval = 60 / BPM; 
+
+        // **譜面データ**
+        let chart = [];
+        let noteIndex = 0;
+        // 譜面データを曲の長さに合わせて生成
+        function generateChart() {
+            let durationInBeats = bgm.duration * BPM / 60; // 曲の長さ（BPMに基づく）
+            for (let i = 0; i < durationInBeats; i++) {
+                chart.push(i * beatInterval); // 各小節にノーツを生成
+            }
+        }
+
+        function startGame() {
+            if (gameStarted) return;
+            gameStarted = true;
+
+            bgm.currentTime = 0;
+            bgm.play().catch(error => console.log("音楽の再生がブロックされました:", error));
+
+            noteIndex = 0;
+            notes = [];
+            gameArea.innerHTML = '<div id="hit-area"></div>';
+
+            // 譜面データを生成
+            generateChart();
+
+            requestAnimationFrame(moveNotes);
+            if (noteSpawnInterval) clearInterval(noteSpawnInterval);
+            noteSpawnInterval = setInterval(checkNoteSpawn, 100);
+        }
+
+        function checkNoteSpawn() {
+            let currentTime = bgm.currentTime;
+
+            // 曲が終わるまでノーツを生成
+            while (noteIndex < chart.length && currentTime >= chart[noteIndex]) {
+                spawnNote();
+                noteIndex++;
+            }
+        }
+
+        function spawnNote() {
+            let note = document.createElement("div");
+            note.classList.add("note");
+            note.style.top = "0px"; // 上から流れる
+            gameArea.appendChild(note);
+            notes.push(note);
+        }
+
+        function moveNotes() {
+            notes.forEach((note, index) => {
+                let top = parseInt(note.style.top);
+                if (top < 450) {
+                    note.style.top = (top + noteSpeed) + "px"; // ノーツが下に流れる
+                } else {
+                    gameArea.removeChild(note);
+                    notes.splice(index, 1);
+                }
+            });
+            requestAnimationFrame(moveNotes);
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === " ") {
+                checkHit();
+            }
+        });
+
+        // function checkHit() {
+        //     notes.forEach((note, index) => {
+        //         let top = parseInt(note.style.top);
+        //         if (top > 400 && top < 450) {
+        //             score++;
+        //             console.log("OK!");
+        //             gameArea.removeChild(note);
+        //             notes.splice(index, 1);
+        //         }
+        //     });
+        // }
+
+        function checkHit() {
+            notes.forEach((note, index) => {
+                let top = parseInt(note.style.top);
+                // ヒットゾーンに近いノーツを成功判定
+                if (top > 400 && top < 450) {
+                    note.classList.add("hit"); // ヒット時にノーツの色を変える
+                    score++;
+                    console.log("OK!");
+                    setTimeout(() => { // ノーツがヒットした後、少し時間をおいて削除
+                        gameArea.removeChild(note);
+                        notes.splice(index, 1);
+                    }, 200); // 200ms後にノーツを削除
+                }
+            });
+        }
+    </script>
+</body>
+</html>

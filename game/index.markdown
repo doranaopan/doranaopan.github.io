@@ -13,6 +13,9 @@ permalink: /game/
 ### [柑橘ゲーム](https://kankitsu.vercel.app/){:target="_blank"}
 柑橘を揃えて消していくゲームです。
 
+### [音ゲー]({{ site.baseurl }}/game/otoge/)
+音ゲーのプロトタイプ。作成中です。プレイできません。
+
 <!-- テトリスをプレイするボタン
 <button onclick="openTetris()">テトリスをプレイする</button>
 <script>
