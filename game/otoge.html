@@ -14,12 +14,19 @@ permalink: /game/otoge
         .note { position: absolute; width: 50px; height: 50px; background: red; left: 125px; }
         .hit { background: green; } /* ヒット成功時の色 */
         #hit-area { position: absolute; bottom: 20px; width: 100%; height: 50px; background: rgba(0, 255, 0, 0.5); }
+        #score { font-size: 20px; margin: 10px; }
+        #message { font-size: 18px; color: green; font-weight: bold; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); display: none; }
     </style>
 </head>
 <body>
     <h1>リズムゲーム</h1>
     <button onclick="startGame()">スタート</button>
     <p>スペースキーでノーツをヒット！</p>
+
+    <!-- 得点表示 -->
+    <div id="score">得点: 0</div>
+    <!-- メッセージ表示 -->
+    <div id="message">成功！</div>
 
     <div id="game-area">
         <div id="hit-area"></div>
@@ -43,6 +50,7 @@ permalink: /game/otoge
         // **譜面データ**
         let chart = [];
         let noteIndex = 0;
+
         // 譜面データを曲の長さに合わせて生成
         function generateChart() {
             let durationInBeats = bgm.duration * BPM / 60; // 曲の長さ（BPMに基づく）
@@ -64,6 +72,10 @@ permalink: /game/otoge
 
             // 譜面データを生成
             generateChart();
+
+            // 得点を初期化
+            score = 0;
+            updateScore();
 
             requestAnimationFrame(moveNotes);
             if (noteSpawnInterval) clearInterval(noteSpawnInterval);
@@ -107,32 +119,35 @@ permalink: /game/otoge
             }
         });
 
-        // function checkHit() {
-        //     notes.forEach((note, index) => {
-        //         let top = parseInt(note.style.top);
-        //         if (top > 400 && top < 450) {
-        //             score++;
-        //             console.log("OK!");
-        //             gameArea.removeChild(note);
-        //             notes.splice(index, 1);
-        //         }
-        //     });
-        // }
-
         function checkHit() {
             notes.forEach((note, index) => {
                 let top = parseInt(note.style.top);
                 // ヒットゾーンに近いノーツを成功判定
                 if (top > 400 && top < 450) {
                     note.classList.add("hit"); // ヒット時にノーツの色を変える
-                    score++;
-                    console.log("OK!");
-                    setTimeout(() => { // ノーツがヒットした後、少し時間をおいて削除
+                    score++; // 得点を増やす
+                    updateScore();
+                    showSuccessMessage(); // 成功メッセージを表示
+
+                    // ノーツを少し後に削除
+                    setTimeout(() => { 
                         gameArea.removeChild(note);
                         notes.splice(index, 1);
                     }, 200); // 200ms後にノーツを削除
                 }
             });
+        }
+
+        function updateScore() {
+            document.getElementById("score").textContent = `得点: ${score}`;
+        }
+
+        function showSuccessMessage() {
+            let message = document.getElementById("message");
+            message.style.display = "block"; // メッセージを表示
+            setTimeout(() => {
+                message.style.display = "none"; // メッセージを非表示にする
+            }, 1000); // 1000ms後に非表示
         }
     </script>
 </body>
